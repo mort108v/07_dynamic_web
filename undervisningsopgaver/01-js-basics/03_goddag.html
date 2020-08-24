@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title></title>
+    <link rel="stylesheet" href="">
+</head>
+
+<body>
+    <input type="text" id="name">
+    <input type="button" id="exebutton">
+
+    <script>
+        exebutton.addEventListener("click", show_name);
+
+        function show_name() {
+            console.log("Der er klikket på knappen");
+            document.querySelector("#name").value;
+            console.log("hello ${#name}");
+        }
+
+    </script>
+</body>
+
+</html>
