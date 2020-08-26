@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title></title>
+    <link rel="stylesheet" href="">
+</head>
+
+<body>
+    <p>Gæt et tal mellem 0 og 20</p>
+    <input type="text" id="tal">
+    <button>klik og se om du har gættet rigtigt (kig i Console)</button>
+
+    <script>
+        document.querySelector("button").addEventListener("click", buttonClicked);
+
+        function buttonClicked() {
+
+            let computerTal = (Math.ceil(Math.random() * 20));
+            console.log(computerTal);
+            let tal = document.querySelector("#tal").value;
+
+
+            if (computerTal < tal) {
+                alert("Du har gættet for højt");
+
+            } else if (computerTal < tal) {
+                alert("Du har gættet for lavt");
+
+            } else {
+                alert("Yaaaay, du har gættet rigtigt, vil du prøve igen?");
+            }
+        }
+    </script>
+</body></html>
