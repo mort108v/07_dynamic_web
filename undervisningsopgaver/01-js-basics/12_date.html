@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title></title>
+    <link rel="stylesheet" href="">
+</head>
+
+<body>
+    <h1>Dette er en dateudregner</h1><br>
+    <h2>Se om jeres aldre er indenfor datingrammen</h2><br>
+    <p>Skriv din alder her</p>
+    <input type="text" id="minAlder">
+
+    <p>Skriv din yngre dates alder her</p>
+    <input type="text" id="dateAlder">
+    <button>Klik og se om i er indenfor rammen</button>
+
+    <script>
+        document.querySelector("button").addEventListener("click", buttonClicked);
+
+        function buttonClicked() {
+
+            let minAlder = document.querySelector("#minAlder").value;
+            let dateAlder = document.querySelector("#dateAlder").value;
+            let okAlder = minAlder / 2 + 7;
+            let forGammel = dateAlder * 2 - 7;
+            let resultat = `Din alder er ${minAlder} år - Og din dates alder er ${dateAlder} år - Så den optimale alder er ${okAlder}+ sååååå . . . . . `;
+            let resultatGammel = `Din alder er ${minAlder} år - Og din dates alder er ${dateAlder} år - Så din optimale alder er under ${forGammel}+ sååååå . . . `;
+
+            if (minAlder > dateAlder) {
+                jegErÆldst()
+
+            } else {
+                minDateErÆldst();
+            }
+        }
+
+        function jegErÆldst() {
+            console.log("jeg Er Ældst");
+
+            if (dateAlder < okAlder) {
+                alert(`${resultat} Din date er for ung!!`);
+
+            } else if (dateAlder > okAlder) {
+                alert(`${resultat} I er et dating match :D`);
+            } else {
+                console.log("UPS 1");
+            }
+        }
+
+        function minDateErÆldst() {
+            console.log("Jeg Er Yngst");
+
+            if (minAlder > forGammel) {
+                alert(`${resultatGammel} I er et dating match :D`);
+
+            } else if (minAlder < forGammel) {
+                alert(`${resultatGammel} Your date is too old!!`);
+            } else {
+                console.log("UPS 2");
+            }
+        }
+    </script>
+</body></html>
