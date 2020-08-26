@@ -26,19 +26,19 @@
             let minAlder = document.querySelector("#minAlder").value;
             let dateAlder = document.querySelector("#dateAlder").value;
             let okAlder = minAlder / 2 + 7;
-            let forGammel = dateAlder * 2 - 7;
+            let forGammel = dateAlder / 2 + 7;
             let resultat = `Din alder er ${minAlder} år - Og din dates alder er ${dateAlder} år - Så den optimale alder er ${okAlder}+ sååååå . . . . . `;
-            let resultatGammel = `Din alder er ${minAlder} år - Og din dates alder er ${dateAlder} år - Så din optimale alder er under ${forGammel}+ sååååå . . . `;
+            let resultatGammel = `Din alder er ${minAlder} år - Og din dates alder er ${dateAlder} år - Så din optimale alder er over ${forGammel}+ sååååå . . . `;
 
             if (minAlder > dateAlder) {
-                jegErÆldst()
+                jegErÆldst(dateAlder, okAlder, resultat)
 
             } else {
-                minDateErÆldst();
+                minDateErÆldst(minAlder, forGammel, resultatGammel);
             }
         }
 
-        function jegErÆldst() {
+        function jegErÆldst(dateAlder, okAlder, resultat) {
             console.log("jeg Er Ældst");
 
             if (dateAlder < okAlder) {
@@ -51,7 +51,7 @@
             }
         }
 
-        function minDateErÆldst() {
+        function minDateErÆldst(minAlder, forGammel, resultatGammel) {
             console.log("Jeg Er Yngst");
 
             if (minAlder > forGammel) {
