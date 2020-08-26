@@ -14,23 +14,23 @@
     <button>klik og se om du har gættet rigtigt (kig i Console)</button>
 
     <script>
+        let computerTal = (Math.ceil(Math.random() * 20));
+        console.log(computerTal);
+
         document.querySelector("button").addEventListener("click", buttonClicked);
 
         function buttonClicked() {
 
-            let computerTal = (Math.ceil(Math.random() * 20));
-            console.log(computerTal);
             let tal = document.querySelector("#tal").value;
 
-
             if (computerTal < tal) {
-                alert("Du har gættet for højt");
+                alert("Du har gættet for højt - Gæt igen");
 
-            } else if (computerTal < tal) {
-                alert("Du har gættet for lavt");
+            } else if (computerTal > tal) {
+                alert("Du har gættet for lavt - gæt igen");
 
             } else {
-                alert("Yaaaay, du har gættet rigtigt, vil du prøve igen?");
+                alert("Yaaaay, du har gættet rigtigt, vil du prøve igen? - Så reload siden");
             }
         }
     </script>
