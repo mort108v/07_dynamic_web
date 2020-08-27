@@ -13,18 +13,14 @@
     <h1>something</h1>
     <section>
         <article>
+            <img src="https://placeimg.com/640/480/any" alt="en">
             <h2>something more</h2>
-            <fig>
-                <img src="https://placeimg.com/640/480/any">
-            </fig>
             <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias veritatis voluptates velit nobis doloribus eveniet inventore deleniti debitis fuga earum! Delectus repellendus consequuntur, nihil ducimus eos porro rerum, temporibus deserunt nemo dolor mollitia voluptates, fuga vel nobis odio odit impedit?</p>
         </article>
 
         <article>
+            <img src="https://placeimg.com/640/480/any" alt="to">
             <h2>another something</h2>
-            <fig>
-                <img src="https://placeimg.com/640/480/any">
-            </fig>
             <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quo eveniet blanditiis natus distinctio a voluptate, eum, sapiente et voluptatem laborum perspiciatis nam, aliquam deserunt. Amet eos quidem, sint quis fuga.</p>
         </article>
     </section>
@@ -35,12 +31,25 @@
     </footer>
 
     <script>
-        const overskriftH1 = document.querySelector("h1");
-        const article1 = document.querySelector("article:nth-child(1) p");
-        overskriftH1.textContent;
-        console.log(overskriftH1.textContent);
-        overskriftH1.textContent = "Billeder";
-        console.log(overskriftH1.textContent);
-        article1.innerHTML = "Her er et <b>billede</b> af noget";
+        const pic1 = document.querySelector("article:nth-child(1) img");
+        console.log(pic1);
+        pic1.src = "pics/mypic1.jpg";
+        pic1.alt = "somthing one";
+
+        let mainSection = document.querySelector("section");
+        let newArticle = document.createElement("article");
+        let overskriftH2 = document.createElement("h2");
+        let h2Text = document.createTextNode("Article 3");
+        overskriftH2.appendChild(h2Text);
+        newArticle.appendChild(overskriftH2);
+        mainSection.appendChild(newArticle);
+
+        /*const overskriftH1 = document.querySelector("h1");
+const article1 = document.querySelector("article:nth-child(1) p");
+overskriftH1.textContent;
+console.log(overskriftH1.textContent);
+overskriftH1.textContent = "Billeder";
+console.log(overskriftH1.textContent);
+article1.innerHTML = "Her er et <b>billede</b> af noget";*/
     </script>
 </body></html>

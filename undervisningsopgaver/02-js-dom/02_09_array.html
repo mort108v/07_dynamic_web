@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title></title>
+    <link rel="stylesheet" href="">
+</head>
+
+<body>
+    <h2>My Songs</h2>
+    <ul id="display">
+
+    </ul>
+    <script>
+        const playlist = ["Fisk 1",
+            "Fisk 2", "Fisk 3", "Fisk 4", "Fisk 5", "Fisk 6", "Fisk 7", "Fisk 8", "Fisk 9", "Fisk 10"
+        ];
+        playlist.forEach(songs => {
+            document.querySelector("#display").innerHTML += `$(songs) <br>`;
+        })
+    </script>
+</body></html>
