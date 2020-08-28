@@ -15,7 +15,7 @@
 
         img {
             max-width: 95%;
-            align-content: center;
+            /*align-content: center;*/
             border-radius: 10px;
         }
 
@@ -37,7 +37,7 @@
 
         <template>
             <article>
-                <h2></h2>
+
                 <h2 class="navn"></h2>
                 <img src="" alt="MyFace">
                 <!--<p class="navn"></p>-->
@@ -83,7 +83,7 @@
             //løb igennem array "personer"
             personer.feed.entry.forEach(person => {
 
-                /*var rowName =*/
+                /*const rowName = temp.cloneNode(true).content;*/
 
                 const klon = temp.cloneNode(true).content;
                 klon.querySelector(".navn").textContent = person.gsx$navn.$t;
