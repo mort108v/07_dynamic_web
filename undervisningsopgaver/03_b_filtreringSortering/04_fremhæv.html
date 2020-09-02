@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>JS Objekter</title>
+    <style>
+        article {
+            border: 3px solid #333;
+            background-color: aquamarine;
+            padding: 10px;
+            line-height: 40%;
+            border-radius: 25px;
+        }
+
+        img {
+            max-width: 95%;
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+            border-radius: 10px;
+        }
+
+        section {
+            padding: 0px;
+            width: 90vw;
+            max-width: 1100px;
+            margin: 0 auto;
+            display: grid;
+            grid-gap: 5px;
+            align-items: top;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        }
+
+        header {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100px;
+            display: grid;
+            grid-gap: 5px;
+            grid-template-columns: repeat(auto-fit, minmax(30px, 1fr));
+
+        }
+
+        button {
+            background-color: aquamarine;
+            border-radius: 5px;
+            padding: 5px;
+
+        }
+
+        .valgt {
+            background-color: blue;
+        }
+
+        /* h1 {
+ padding: 10px;
+ }*/
+
+    </style>
+</head>
+<header>
+    <h1>Alle</h1>
+    <button class="filter valgt" data-køn="alle">Alle</button>
+    <button class="filter" data-køn="k">Kvinder</button>
+    <button class="filter" data-køn="m">Mænd</button>
+    <button class="filter" data-køn="andet">Andet køn</button><br>
+</header>
+
+<body>
+    <template>
+        <article>
+
+            <h2 class="navn"></h2>
+            <img src="" alt="MyFace">
+            <!--<p class="navn"></p>-->
+            <p><b>Efternavn: </b></p>
+            <p class="efternavn"></p>
+            <p><b>køn:</b></p>
+            <p class="køn"></p>
+            <p><b>alder:</b></p>
+            <p class="alder"></p>
+            <p><b>religion:</b></p>
+            <p class="religion"></p>
+            <p><b>kæledyr:</b></p>
+            <p class="kæledyr"></p>
+            <p><b>job:</b></p>
+            <p class="job"></p>
+            <p><b>by:</b></p>
+            <p class="by"></p>
+            <p><b>land:</b></p>
+            <p class="land"></p>
+
+        </article>
+    </template>
+    <section class="list">
+
+
+
+    </section>
+    <script>
+        let json;
+        let valgt;
+        /*
+                let container = document.querySelector("section");
+        */
+        let temp = document.querySelector("template");
+
+        let filter = "alle";
+        const link = "https://spreadsheets.google.com/feeds/list/1mtHhpoEkYqVqr1TSnKQ1_sQZWI7FRVjcw3H1oatDOVQ/od6/public/values?alt=json";
+
+        /*
+        const link = "https://docs.google.com/spreadsheets/d/1mtHhpoEkYqVqr1TSnKQ1_sQZWI7FRVjcw3H1oatDOVQ/edit#gid=0";*/
+
+        async function hentdata() {
+            const respons = await fetch(link);
+            json = await respons.json();
+            addEventListenerToButtons();
+            vis();
+        }
+
+        function vis() {
+
+            /*
+                        const templatePointer = document.querySelector("template");
+            */
+            let listPointer = document.querySelector(".list");
+
+            listPointer.innerHTML = " ";
+
+            //løb igennem array "personer"
+            json.feed.entry.forEach(person => {
+                if (filter == "alle" || filter == person.gsx$køn.$t.toLowerCase()) {
+                    console.log(filter);
+
+                    /*const rowName = temp.cloneNode(true).content;*/
+
+                    const klon = temp.cloneNode(true).content;
+                    klon.querySelector(".navn").textContent = person.gsx$navn.$t;
+                    klon.querySelector(".efternavn").textContent = person.gsx$efternavn.$t;
+                    klon.querySelector(".køn").textContent = person.gsx$køn.$t;
+                    klon.querySelector("img").src = person.gsx$billede.$t;
+                    klon.querySelector(".køn").textContent = person.gsx$køn.$t;
+                    klon.querySelector(".alder").textContent = person.gsx$alder.$t;
+                    klon.querySelector(".religion").textContent = person.gsx$religion.$t;
+                    klon.querySelector(".kæledyr").textContent = person.gsx$kæledyr.$t;
+                    klon.querySelector(".job").textContent = person.gsx$job.$t;
+                    klon.querySelector(".by").textContent = person.gsx$by.$t;
+                    klon.querySelector(".land").textContent = person.gsx$land.$t;
+
+                    listPointer.appendChild(klon);
+                }
+
+
+            })
+        }
+
+        function addEventListenerToButtons() {
+            document.querySelectorAll(".filter").forEach((btn) => {
+                btn.addEventListener("click", filterBTNs);
+            });
+        }
+
+        function filterBTNs() {
+            filter = this.dataset.køn;
+            document.querySelector("h1").textContent = this.textContent;
+            document.querySelectorAll(".filter").forEach((btn) => {
+                btn.classList.remove("valgt");
+            })
+            this.classList.add("valgt");
+            vis();
+        }
+        hentdata();
+
+    </script>
+</body>
+
+</html>
