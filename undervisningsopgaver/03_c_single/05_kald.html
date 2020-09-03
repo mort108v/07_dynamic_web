@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>popup single</title>
+    <style>
+        .full-list-view {
+            border: 3px solid #333;
+            background-color: aquamarine;
+            padding: 10px;
+            line-height: 40%;
+            border-radius: 25px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        img {
+            max-width: 95%;
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+            border-radius: 10px;
+        }
+
+        .list {
+            padding: 0px;
+            width: 90vw;
+            max-width: 1100px;
+            margin: 0 auto;
+            display: grid;
+            grid-gap: 5px;
+            align-items: top;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        }
+
+        header {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100vw;
+            height: 100px;
+            /*padding-left: 55px;*/
+            display: grid;
+            grid-gap: 5px;
+            grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+        }
+
+        button {
+            background-color: aquamarine;
+            border-radius: 5px;
+            padding: 5px;
+        }
+
+        .valgt {
+            background-color: blue;
+        }
+
+        #popup {
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 100vw;
+            height: 100vh;
+            background-color: rgba(0, 0, 0, .8);
+            overflow: scroll;
+            display: none;
+        }
+
+        #popup article {
+            display: flex;
+            width: 80vw;
+            margin: 4rem auto;
+            border-radius: 25px;
+            padding: 15px;
+            background-color: aliceblue;
+        }
+
+        #popup span {
+            background-color: aqua;
+        }
+
+        #luk button {
+            position: fixed;
+            top: 7.4vh;
+            right: 7.2vw;
+            background-color: white;
+            color: black;
+            text-align: center;
+            text-decoration: none;
+            border: 2;
+            display: inline-block;
+            font-size: 20px;
+            padding: 5px 10px;
+            border-radius: 30%;
+            cursor: pointer;
+        }
+
+        #popup img {
+            display: flex;
+            width: 50%;
+            margin-left: 0em;
+        }
+
+        span {
+            font-weight: normal;
+        }
+
+        #popup p {
+            display: flex;
+            width: 35vw;
+            font-family: fantasy;
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <h1>Alle peeps</h1><br>
+        <button class="filter valgt" data-køn="alle">Alle</button>
+        <button class="filter" data-køn="k">Kvinder</button>
+        <button class="filter" data-køn="m">Mænd</button>
+        <button class="filter" data-køn="andet">Andet køn</button><br>
+    </header>
+
+    <section id="popup">
+        <article>
+
+            <div id="luk">
+                <button> x </button>
+            </div>
+            <img src="" alt="TheFace">
+
+            <div>
+                <h2></h2>
+                <p><b>køn : </b> <span class="køn"></span></p>
+                <p><b>alder : </b> <span class="alder"></span></p>
+                <p><b>religion : </b> <span class="religion"></span></p>
+                <p><b>kæledyr : </b> <span class="kæledyr"></span></p>
+                <p><b>job : </b> <span class="job"></span></p>
+                <p><b>by : </b> <span class="by"></span></p>
+                <p><b>land : </b> <span class="land"></span></p>
+            </div>
+
+        </article>
+
+    </section>
+
+    <template>
+        <article class="full-list-view">
+            <h2></h2>
+            <img src="" alt="MyFace">
+        </article>
+    </template>
+
+    <section class="list">
+
+    </section>
+
+    <script>
+        let personer;
+        let json;
+        let valgt;
+        const popup = document.querySelector("#popup");
+        document.addEventListener("DOMContentLoaded", loadJSON);
+
+        let temp = document.querySelector("template");
+
+        let filter = "alle";
+        const link = "https://spreadsheets.google.com/feeds/list/1mtHhpoEkYqVqr1TSnKQ1_sQZWI7FRVjcw3H1oatDOVQ/od6/public/values?alt=json";
+
+        /*
+        const link = "https://docs.google.com/spreadsheets/d/1mtHhpoEkYqVqr1TSnKQ1_sQZWI7FRVjcw3H1oatDOVQ/edit#gid=0";*/
+
+        async function loadJSON() {
+            const respons = await fetch(link);
+            json = await respons.json();
+            addEventListenerToButtons();
+            vis();
+        }
+
+        function vis() {
+
+            const templatePointer = document.querySelector("template");
+            let listPointer = document.querySelector(".list");
+            listPointer.innerHTML = " ";
+
+            //løb igennem array "personer"
+            json.feed.entry.forEach(person => {
+                if (filter == "alle" || filter == person.gsx$køn.$t.toLowerCase()) {
+                    console.log(filter);
+
+                    const klon = temp.cloneNode(true).content;
+                    klon.querySelector("h2").textContent = person.gsx$navn.$t;
+                    klon.querySelector("h2").textContent += " "
+                    person.gsx$efternavn.$t;
+                    klon.querySelector("img").src = person.gsx$billede.$t;
+
+                    klon.querySelector("article").addEventListener("click", () => visDetaljer(person));
+
+                    listPointer.appendChild(klon);
+                }
+            })
+        }
+
+        document.querySelector("#luk").addEventListener("click", () => popup.style.display = "none");
+
+        function visDetaljer(person) {
+            console.log(person);
+
+            popup.style.display = "block";
+            popup.querySelector("h2").textContent = person.gsx$navn.$t;
+            popup.querySelector("h2").textContent += " " + person.gsx$efternavn.$t;
+            popup.querySelector(".køn").textContent = +person.gsx$køn.$t;
+            popup.querySelector("img").src = person.gsx$billede.$t;
+            popup.querySelector(".køn").textContent = person.gsx$køn.$t;
+            popup.querySelector(".alder").textContent = person.gsx$alder.$t;
+            popup.querySelector(".religion").textContent = person.gsx$religion.$t;
+            popup.querySelector(".kæledyr").textContent = person.gsx$kæledyr.$t;
+            popup.querySelector(".job").textContent = person.gsx$job.$t;
+            popup.querySelector(".by").textContent = person.gsx$by.$t;
+            popup.querySelector(".land").textContent = person.gsx$land.$t;
+            popup.style.display = "block";
+        }
+
+        function addEventListenerToButtons() {
+            document.querySelectorAll(".filter").forEach((btn) => {
+                btn.addEventListener("click", filterBTNs);
+            });
+        }
+
+        function filterBTNs() {
+            filter = this.dataset.køn;
+            document.querySelector("h1").textContent = this.textContent;
+            document.querySelectorAll(".filter").forEach((btn) => {
+                btn.classList.remove("valgt");
+            })
+            this.classList.add("valgt");
+            vis();
+        }
+        loadJSON();
+    </script>
+</body></html>
