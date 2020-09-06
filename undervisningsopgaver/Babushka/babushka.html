@@ -4,109 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <title>Babushka</title>
+    <link rel="stylesheet" href="style.css">
     <style>
-        article {
-            border: 3px solid #333;
-            background-color: orangered;
-            padding: 10px;
-            line-height: auto;
-            border-radius: 25px;
-        }
-
-        img {
-            max-width: 95%;
-            display: block;
-            margin-left: auto;
-            margin-right: auto;
-            border-radius: 10px;
-        }
-
-        section {
-            padding: 0px;
-            width: 90vw;
-            max-width: 1100px;
-            margin: 0 auto;
-            display: grid;
-            grid-gap: 5px;
-            align-items: top;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-        }
-
-        header {
-            justify-content: center;
-            align-items: center;
-            height: auto;
-            display: grid;
-            grid-gap: 5px;
-            grid-template-columns: repeat(6, 1fr);
-            padding-bottom: 20px;
-            width: 90vw;
-            max-width: 1100px;
-            margin: 0 auto;
-        }
-
-        button {
-            background-color: orangered;
-            border-radius: 5px;
-            padding: 5px;
-            font-size: 1.0em;
-        }
-
-        button:hover {
-            background-color: lightcoral;
-        }
-
-        .valgt {
-            background-color: lightcoral;
-        }
-
-        .splash {
-            position: relative;
-            width: 100%;
-            height: 50vh;
-            background-color: red;
-            background-size: cover;
-            background-image: url(splash/babushka_splash.JPG);
-            padding-bottom: 20px;
-        }
-
-        h1 {
-            color: lightcoral;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-
-        body {
-            background-color: #020f1f;
-        }
-
-        #popop {
-            position: fixed;
-            left: 0;
-            top: 0;
-            widows: 100vw;
-            height: 100vh;
-            background-color: rgba(0, 0, 0, .8);
-            display: ;
-        }
-
-        #popop article {
-            width: 80vw;
-            height: 80vh;
-            margin: 4rem auto;
-            background-color: aliceblue;
-        }
-
-        #luk {
-            position: fixed;
-            top: 0;
-            right: 1em;
-            background-color: aliceblue;
-            color: black;
-            border-radius: 5px;
-            padding: .1em;
-        }
 
     </style>
 </head>
@@ -118,7 +17,8 @@
 
 <header>
 
-    <button class="filter valgt" data-kategori="alle">Alle</button> <button class="filter" data-kategori="desserter">Desserter</button>
+    <button class="filter valgt" data-kategori="alle">Alle retter</button>
+    <button class="filter" data-kategori="desserter">Desserter</button>
     <button class="filter" data-kategori="drikkevarer">Drikkevarer</button>
     <button class="filter" data-kategori="forretter">Forretter</button>
     <button class="filter" data-kategori="hovedretter">Hovedretter</button>
@@ -127,99 +27,38 @@
 </header>
 
 <body>
-    <template>
+    <section id="popup">
         <article>
-            <p class="kategori"></p>
-            <h2 class="navn"></h2>
-            <p><b>Pris: </b></p>
-            <p class="pris"></p>
-            <img src="" alt="En ret">
-            <p><b>Kort: </b></p>
-            <p class="kort"></p>
-            <p><b>Oprindelse:</b></p>
-            <p class="oprindelse"></p>
-            <!--<p><b>Lang:</b></p>
-            <p class="lang"></p>-->
-
-        </article>
-    </template>
-
-    <section id="popop">
-        <article>
-            <div id="luk">X</div>
-            <h2></h2>
-            <img src="" alt="">
-            <p></p>
+            <div id="luk">
+                <button> x </button>
+            </div>
+            <img src="" alt="The Ret">
+            <div>
+                <p><b>Kategori : </b> <span class="kategori"></span></p>
+                <p></p>
+                <h2></h2>
+                <p></p>
+                <p><b>Pris : </b> <span class="pris"></span></p>
+                <p></p>
+                <p><b>Oprindelse : </b> <span class="oprindelse"></span></p>
+                <p></p>
+                <p><b>Lang beskrivelse: </b> <span class="kort"></span></p>
+            </div>
         </article>
     </section>
+
+    <template>
+        <article>
+            <h2></h2>
+            <p><b>Pris : </b> <span class="pris"></span></p>
+            <img src="" alt="The Ret">
+            <p><b>Kort beskrivelse: </b> <span class="kort"></span></p>
+        </article>
+    </template>
 
     <section class="list">
 
     </section>
-    <script>
-        let json;
-        let valgt;
+    <script src="script.js"></script>
 
-        let temp = document.querySelector("template");
-
-        let filter = "alle";
-        const link = "https://spreadsheets.google.com/feeds/list/17Dd7DvkPaFamNUdUKlrFgnH6POvBJXac7qyiS6zNRw0/od6/public/values?alt=json";
-
-        async function hentdata() {
-            const respons = await fetch(link);
-            json = await respons.json();
-            addEventListenerToButtons();
-            vis();
-        }
-
-        function vis() {
-
-            let listPointer = document.querySelector(".list");
-
-            listPointer.innerHTML = " ";
-
-            //løb igennem array "madret"
-            json.feed.entry.forEach(madret => {
-                if (filter == "alle" || filter == madret.gsx$kategori.$t.toLowerCase()) {
-                    console.log(filter);
-
-                    /*const rowName = temp.cloneNode(true).content;*/
-
-                    const klon = temp.cloneNode(true).content;
-                    klon.querySelector(".navn").textContent = madret.gsx$navn.$t;
-                    klon.querySelector(".pris").textContent = madret.gsx$pris.$t + " kr.";
-                    klon.querySelector(".kategori").textContent = madret.gsx$kategori.$t;
-                    klon.querySelector("img").src = "imgs/large/" + madret.gsx$billede.$t + ".jpg";
-                    klon.querySelector(".kort").textContent = madret.gsx$kort.$t;
-                    /*
-                                        klon.querySelector(".lang").textContent = madret.gsx$lang.$t;*/
-                    klon.querySelector(".oprindelse").textContent = madret.gsx$oprindelse.$t;
-
-                    listPointer.appendChild(klon);
-                }
-
-
-            })
-        }
-
-        function addEventListenerToButtons() {
-            document.querySelectorAll(".filter").forEach((btn) => {
-                btn.addEventListener("click", filterBTNs);
-            });
-        }
-
-        function filterBTNs() {
-            filter = this.dataset.kategori;
-            document.querySelector("h1").textContent = this.textContent;
-            document.querySelectorAll(".filter").forEach((btn) => {
-                btn.classList.remove("valgt");
-            })
-            this.classList.add("valgt");
-            vis();
-        }
-        hentdata();
-
-    </script>
-</body>
-
-</html>
+</body></html>
